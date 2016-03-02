@@ -48,14 +48,34 @@ var game = (() => {
     var ambientLight: AmbientLight;
     var spotLight: SpotLight;
     
-    //custom
+    //cube variables
     var planeGeometry: PlaneGeometry;
+    var cubeGeometry: CubeGeometry;
+    var downcubeGeometry: CubeGeometry;
+    var midcubeGeometry: CubeGeometry;
+    var topcubeGeometry: CubeGeometry;
+    var upperTopcubeGeometry: CubeGeometry;
+    var CNcubeGeometry: CubeGeometry;
+    
     
     //material
     var planeMaterial: LambertMaterial;
+    var CubeMaterial: LambertMaterial;
+    var downMaterial: LambertMaterial;
+    var midMaterial: LambertMaterial;
+    var topMaterial: LambertMaterial;
+    var upperTopMaterial: LambertMaterial;
+    var CNcubeMaterial: LambertMaterial;
     
     //mesh
     var plane: Mesh;
+    var Cube :Mesh;
+    var down:Mesh;
+    var mid:Mesh;
+    var top :Mesh;
+    var upperTop :Mesh;
+    var CN :Mesh;
+    
 
     function init() {
         // Instantiate a new Scene object
@@ -95,9 +115,61 @@ var game = (() => {
         plane.position.z = 0;
         scene.add(plane);
         console.log("Added Plane Primitive");
+        
+        
+        //tower base
+        downcubeGeometry = new CubeGeometry(7, 7, 7);
+        downMaterial = new LambertMaterial({ color: 0xff0000 });
+        down = new Mesh(downcubeGeometry, downMaterial);
+        down.castShadow = true;
+        down.receiveShadow = true;
+        down.position.x = 0;
+        down.position.y = 0;
+        down.position.z = 0;
+        console.log("Added Base");
+        scene.add(down);
+        
+        //tower mid
+        midcubeGeometry = new CubeGeometry(2, 15, 2);
+        midMaterial = new LambertMaterial({ color: 0xffffff });
+        mid = new Mesh(midcubeGeometry, midMaterial);
+        mid.castShadow = true;
+        mid.receiveShadow = true;
+        mid.position.x = 0;
+        mid.position.y = 7;
+        mid.position.z = 0;
+        console.log("Added mid");
+        scene.add(mid);
+        mid.rotation.y = -100;
+        
+         //tower mid base
+        CNcubeGeometry = new CubeGeometry(4, 2, 4);
+        CNcubeMaterial = new LambertMaterial({ color: 0xff0000 });
+        CN = new Mesh(CNcubeGeometry, CNcubeMaterial);
+        CN.castShadow = true;
+        CN.receiveShadow = true;
+        CN.position.x = 0;
+        CN.position.y = 15;
+        CN.position.z = 0;
+        console.log("Added mid base");
+        scene.add(CN);
+        
+         //tower mid//tower base
+        topcubeGeometry = new CubeGeometry(2, 2, 2);
+        topMaterial = new LambertMaterial({ color: 0xffffff });
+        top = new Mesh(topcubeGeometry, topMaterial);
+        top.castShadow = true;
+        top.receiveShadow = true;
+        top.position.x = 0;
+        top.position.y = 17;
+        top.position.z = 0;
+        console.log("Added top");
+        scene.add(top);
+        top.rotation.y = -100;
+        
         // add controls
         gui = new GUI();
-        control = new Control();
+        control = new Control(0, 0, 0);
         addControl(control);
 
         // Add framerate stats
@@ -109,8 +181,13 @@ var game = (() => {
 
     }
 
-    function addControl(controlObject: Control): void {
-        /* ENTER CODE for the GUI CONTROL HERE */
+     //Controls for user
+function addControl(controlObject: Control): void {
+       
+        var rotationFolder = gui.addFolder('Speed Control');
+        rotationFolder.add(controlObject, 'y_rotationSpeed', 0, 0.3).listen();
+      // rotationFolder.add(controlObject, 'resetPosition').name('Reset ');
+        rotationFolder.open();
     }
 
     function addStatsObject() {
@@ -123,16 +200,25 @@ var game = (() => {
     }
 
     // Setup main game loop
-    function gameLoop(): void {
-        stats.update();
-        
-        // render using requestAnimationFrame
-        requestAnimationFrame(gameLoop);
-	
-        // render the scene
-        renderer.render(scene, camera);
-    }
+   
+function gameLoop(): void {
+    stats.update();
+    
+        //animation
+    mid.rotation.y += control.y_rotationSpeed;
+    top.rotation.y += control.y_rotationSpeed;
+    CN.rotation.y += control.y_rotationSpeed;
+    down.rotation.y += control.y_rotationSpeed;
+    
 
+    // render using requestAnimationFrame
+    requestAnimationFrame(gameLoop);
+	
+    // render the scene
+    renderer.render(scene, camera);
+    
+ //   updateCubes();
+}
     // Setup default renderer
     function setupRenderer(): void {
         renderer = new Renderer();
@@ -146,9 +232,9 @@ var game = (() => {
     // Setup main camera for the scene
     function setupCamera(): void {
         camera = new PerspectiveCamera(35, config.Screen.RATIO, 0.1, 100);
-        camera.position.x = 15.3;
-        camera.position.y = 18.5;
-        camera.position.z = -28.7;
+        camera.position.x = 35.3;
+        camera.position.y = 38.5;
+        camera.position.z = -48.7;
         camera.rotation.set(-1.10305, 0.49742, -0.1396);
         camera.lookAt(new Vector3(0, 0, 0));
         console.log("Finished setting up Camera...");
