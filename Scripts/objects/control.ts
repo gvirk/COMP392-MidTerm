@@ -1,4 +1,8 @@
 /// <reference path="../../typings/tsd.d.ts"/>
+/**
+ * @author: Gursharnbir Singh
+ * @midterm-comp392
+ */
 
 module objects {
     // CONTROL CLASS ++++++++++++++++++++++++++++++++++++++++++

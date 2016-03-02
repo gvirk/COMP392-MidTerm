@@ -1,4 +1,8 @@
 /// <reference path="_reference.ts"/>
+/**
+ * @author: Gursharnbir Singh
+ * @midterm-comp392
+ */
 
 // MAIN GAME FILE
 
@@ -105,7 +109,7 @@ var game = (() => {
  
         //added a plane in the scene
         planeGeometry = new PlaneGeometry(30, 35);
-        planeMaterial = new LambertMaterial({ color: 0xFFFFFF });
+        planeMaterial = new LambertMaterial({map: THREE.ImageUtils.loadTexture("img/base.jpg")});
         plane = new Mesh(planeGeometry, planeMaterial);
         plane.receiveShadow = true;
         plane.rotation.x = -0.5 * Math.PI;
@@ -119,7 +123,7 @@ var game = (() => {
         
         //tower base
         downcubeGeometry = new CubeGeometry(7, 7, 7);
-        downMaterial = new LambertMaterial({ color: 0xff0000 });
+        downMaterial = new LambertMaterial({map: THREE.ImageUtils.loadTexture("img/stone.jpg")});
         down = new Mesh(downcubeGeometry, downMaterial);
         down.castShadow = true;
         down.receiveShadow = true;
@@ -131,7 +135,7 @@ var game = (() => {
         
         //tower mid
         midcubeGeometry = new CubeGeometry(2, 15, 2);
-        midMaterial = new LambertMaterial({ color: 0xffffff });
+        midMaterial = new LambertMaterial({map: THREE.ImageUtils.loadTexture("img/wall.jpg")});
         mid = new Mesh(midcubeGeometry, midMaterial);
         mid.castShadow = true;
         mid.receiveShadow = true;
@@ -144,7 +148,7 @@ var game = (() => {
         
          //tower mid base
         CNcubeGeometry = new CubeGeometry(4, 2, 4);
-        CNcubeMaterial = new LambertMaterial({ color: 0xff0000 });
+        CNcubeMaterial = new LambertMaterial({map: THREE.ImageUtils.loadTexture("img/stone.jpg")});
         CN = new Mesh(CNcubeGeometry, CNcubeMaterial);
         CN.castShadow = true;
         CN.receiveShadow = true;
@@ -156,7 +160,7 @@ var game = (() => {
         
          //tower mid//tower base
         topcubeGeometry = new CubeGeometry(2, 2, 2);
-        topMaterial = new LambertMaterial({ color: 0xffffff });
+        topMaterial = new LambertMaterial({map: THREE.ImageUtils.loadTexture("img/brick.jpg")});
         top = new Mesh(topcubeGeometry, topMaterial);
         top.castShadow = true;
         top.receiveShadow = true;
